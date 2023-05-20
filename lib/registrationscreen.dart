@@ -182,19 +182,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      GestureDetector(
-                        onTap: _goLogin,
-                        child: const Text(
-                          "Already Registered? Login",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                            // Added color to make it stand out
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
                     ],
                   ),
                 ),
@@ -301,11 +288,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         Navigator.pop(context);
       }
     });
-  }
-
-  void _goLogin() {
-    //   late User user;
-    //   Navigator.push(
-    //       context, MaterialPageRoute(builder: (content) => const LoginScreen()));
   }
 }

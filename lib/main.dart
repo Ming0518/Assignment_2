@@ -33,11 +33,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkAndLogin();
-    //loadPref();
-    // Timer(
-    //     const Duration(seconds: 3),
-    //     () => Navigator.pushReplacement(context,
-    //         MaterialPageRoute(builder: (content) =>  MainScreen())));
   }
 
   @override
@@ -67,9 +62,9 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 "Version 1.0",
                 style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 124, 112, 4)),
+                    color: Colors.green),
               )
             ],
           ),

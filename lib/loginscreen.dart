@@ -10,7 +10,9 @@ import 'package:barterlt/mainscreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
+  ///const LoginScreen({super.key});
   final User user;
+
   LoginScreen({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -25,10 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isChecked = false;
 
   @override
-  // void initState() {
-  //   super.initState();
-  //   loadPref();
-  // }
+  void initState() {
+    super.initState();
+    loadPref();
+  }
 
   @override
   Widget build(BuildContext context) {

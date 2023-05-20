@@ -46,7 +46,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.green,
         title: Text(maintitle),
         actions: [
           GestureDetector(
@@ -70,6 +70,7 @@ class _MainScreenState extends State<MainScreen> {
                           style: TextStyle(color: Colors.red),
                         ),
                         onPressed: () {
+                          Navigator.of(context).pop();
                           _goToLogin();
                         },
                       ),
@@ -87,7 +88,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: tabchildren[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.green,
           onTap: onTabTapped,
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
@@ -135,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _goToLogin() {
-    Navigator.pushReplacement(
+    Navigator.push(
         context, MaterialPageRoute(builder: (content) => const MyApp()));
   }
 }
