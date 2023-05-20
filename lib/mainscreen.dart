@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text(maintitle),
+        title: Text(maintitle, style: const TextStyle(color: Colors.white)),
         actions: [
           GestureDetector(
             onTap: () {
