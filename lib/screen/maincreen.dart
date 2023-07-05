@@ -1,11 +1,11 @@
 import 'package:barterlt/main.dart';
 import 'package:flutter/material.dart';
 import 'package:barterlt/user.dart';
-import 'package:barterlt/itemtabscreen.dart';
-import 'package:barterlt/searchtabscreen.dart';
-import 'package:barterlt/messagetabscreen.dart';
-import 'package:barterlt/ratetabscreen.dart';
-import 'package:barterlt/loginscreen.dart';
+import 'package:barterlt/screen/itemtabscreen.dart';
+import 'package:barterlt/screen/searchtabscreen.dart';
+import 'package:barterlt/screen/messagetabscreen.dart';
+import 'package:barterlt/screen/ratetabscreen.dart';
+//import 'package:barterlt/loginscreen.dart';
 
 class MainScreen extends StatefulWidget {
   final User user;
@@ -45,47 +45,47 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text(maintitle, style: const TextStyle(color: Colors.white)),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Are you sure you want to logout?'),
-                    actions: [
-                      TextButton(
-                        child: const Text('No'),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // Close the dialog
-                        },
-                      ),
-                      TextButton(
-                        child: const Text(
-                          'Yes',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          _goToLogin();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Icon(Icons.logout),
-            ),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.green,
+      //   title: Text(maintitle, style: const TextStyle(color: Colors.white)),
+      //   actions: [
+      //     GestureDetector(
+      //       onTap: () {
+      //         showDialog(
+      //           context: context,
+      //           builder: (BuildContext context) {
+      //             return AlertDialog(
+      //               title: const Text('Logout'),
+      //               content: const Text('Are you sure you want to logout?'),
+      //               actions: [
+      //                 TextButton(
+      //                   child: const Text('No'),
+      //                   onPressed: () {
+      //                     Navigator.of(context).pop(); // Close the dialog
+      //                   },
+      //                 ),
+      //                 TextButton(
+      //                   child: const Text(
+      //                     'Yes',
+      //                     style: TextStyle(color: Colors.red),
+      //                   ),
+      //                   onPressed: () {
+      //                     Navigator.of(context).pop();
+      //                     _goToLogin();
+      //                   },
+      //                 ),
+      //               ],
+      //             );
+      //           },
+      //         );
+      //       },
+      //       child: const Padding(
+      //         padding: EdgeInsets.symmetric(horizontal: 16.0),
+      //         child: Icon(Icons.logout),
+      //       ),
+      //     ),
+      //   ],
+      // ),
       body: tabchildren[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.green,

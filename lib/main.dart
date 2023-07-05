@@ -59,13 +59,13 @@ class _SplashScreenState extends State<SplashScreen> {
                     color: Colors.black),
               ),
               CircularProgressIndicator(),
-              Text(
-                "Version 1.0",
-                style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green),
-              )
+              // Text(
+              //   "Version 1.0",
+              //   style: TextStyle(
+              //       fontSize: 30,
+              //       fontWeight: FontWeight.bold,
+              //       color: Colors.green),
+              // )
             ],
           ),
         )

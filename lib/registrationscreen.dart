@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:barterlt/loginscreen.dart';
-import 'package:barterlt/user.dart';
+//import 'package:barterlt/loginscreen.dart';
+//import 'package:barterlt/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:barterlt/myconfig.dart';
@@ -165,7 +165,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     onPressed: onRegisterDialog,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors
-                                          .pink, // Set the button background color to pink
+                                          .green, // Set the button background color to pink
                                     ),
                                     child: const Text(
                                       "Register",

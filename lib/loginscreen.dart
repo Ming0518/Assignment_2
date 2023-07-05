@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:barterlt/user.dart';
 import 'package:barterlt/myconfig.dart';
 import 'package:barterlt/registrationscreen.dart';
-import 'package:barterlt/mainscreen.dart';
+import 'package:barterlt/screen/maincreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -68,33 +68,40 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            TextFormField(
-                              controller: _emailEditingController,
-                              validator: (val) => val!.isEmpty ||
-                                      !val.contains("@") ||
-                                      !val.contains(".")
-                                  ? "Enter a valid email"
-                                  : null,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: const InputDecoration(
-                                labelText: 'Email',
-                                labelStyle: TextStyle(),
-                                prefixIcon: Icon(Icons.email),
-                                border: OutlineInputBorder(),
+                            Card(
+                              elevation: 2,
+                              child: TextFormField(
+                                controller: _emailEditingController,
+                                validator: (val) => val!.isEmpty ||
+                                        !val.contains("@") ||
+                                        !val.contains(".")
+                                    ? "Enter a valid email"
+                                    : null,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  labelStyle: TextStyle(),
+                                  prefixIcon: Icon(Icons.email),
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 16),
-                            TextFormField(
-                              controller: _passEditingController,
-                              validator: (val) => val!.isEmpty || val.length < 5
-                                  ? "Password must be longer than 5"
-                                  : null,
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                labelText: 'Password',
-                                labelStyle: TextStyle(),
-                                prefixIcon: Icon(Icons.lock),
-                                border: OutlineInputBorder(),
+                            Card(
+                              elevation: 2,
+                              child: TextFormField(
+                                controller: _passEditingController,
+                                validator: (val) =>
+                                    val!.isEmpty || val.length < 5
+                                        ? "Password must be longer than 5"
+                                        : null,
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  labelText: 'Password',
+                                  labelStyle: TextStyle(),
+                                  prefixIcon: Icon(Icons.lock),
+                                  border: OutlineInputBorder(),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -125,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   height: 50,
                                   elevation: 10,
                                   onPressed: onLogin,
-                                  color: Colors.pink,
+                                  color: Colors.green,
                                   textColor: Colors.white,
                                   child: const Text('Login'),
                                 ),
