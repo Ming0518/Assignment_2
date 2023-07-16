@@ -420,6 +420,7 @@ class _NewItemScreenState extends State<NewItemScreen> {
     http.post(Uri.parse("${MyConfig().SERVER}/barterlt/php/insert_item.php"),
         body: {
           "userid": widget.user.id.toString(),
+          "phone": widget.user.phone.toString(),
           "itemname": itemname,
           "itemdesc": itemdesc,
           "itemvalue": itemvalue,

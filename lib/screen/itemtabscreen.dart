@@ -52,43 +52,6 @@ class _ItemTabScreenState extends State<ItemTabScreen> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: const Text("Item", style: TextStyle(color: Colors.white)),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Are you sure you want to logout?'),
-                    actions: [
-                      TextButton(
-                        child: const Text('No'),
-                        onPressed: () {
-                          Navigator.of(context).pop(); // Close the dialog
-                        },
-                      ),
-                      TextButton(
-                        child: const Text(
-                          'Yes',
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          _goToLogin();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Icon(Icons.logout),
-            ),
-          ),
-        ],
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,

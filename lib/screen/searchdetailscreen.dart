@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:barterlt/item.dart';
 import 'package:barterlt/user.dart';
 import 'package:barterlt/myconfig.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 class ItemDetailsScreen extends StatefulWidget {
   final Item useritem;
@@ -26,7 +30,8 @@ class _SellerDetailsScreenState extends State<ItemDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text("Items Details"),
+        title:
+            const Text("Items Details", style: TextStyle(color: Colors.white)),
       ),
       body: Container(
         color: Colors.white, // Set the desired background color here
@@ -114,9 +119,110 @@ class _SellerDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
             ),
+            ElevatedButton(
+              onPressed: () {
+                addtocartdialog();
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green, // Set the background color to green
+              ),
+              child: const Text(
+                "BaeterIt Now",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void addtocartdialog() {
+    if (widget.user.id.toString() == widget.useritem.userId.toString()) {
+      Fluttertoast.showToast(
+          msg: "User cannot barter own item",
+          backgroundColor: const Color.fromARGB(255, 126, 255, 186),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          fontSize: 16.0,
+          textColor: Colors.black);
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          title: const Text(
+            "Barter This Item?",
+            style: TextStyle(),
+          ),
+          content: const Text("Are you sure?", style: TextStyle()),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                "Yes",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                addtocart();
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void addtocart() {
+    http.post(Uri.parse("${MyConfig().SERVER}/barterlt/php/insert_cart.php"),
+        body: {
+          "item_id": widget.useritem.itemId,
+          "userid": widget.user.id,
+          "sellerid": widget.useritem.userId,
+          "phone": widget.useritem.userPhone
+        }).then((response) {
+      if (response.statusCode == 200) {
+        var jsondata = jsonDecode(response.body);
+        if (jsondata['status'] == 'success') {
+          Fluttertoast.showToast(
+              msg: "Success",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0);
+          // ScaffoldMessenger.of(context)
+          //     .showSnackBar(const SnackBar(content: Text("Success")));
+        } else {
+          Fluttertoast.showToast(
+              msg: "Failed",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0);
+        }
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Failed",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+        Navigator.pop(context);
+      }
+    });
   }
 }

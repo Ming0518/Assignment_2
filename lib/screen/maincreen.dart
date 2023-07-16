@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:barterlt/user.dart';
 import 'package:barterlt/screen/itemtabscreen.dart';
 import 'package:barterlt/screen/searchtabscreen.dart';
-import 'package:barterlt/screen/messagetabscreen.dart';
-import 'package:barterlt/screen/ratetabscreen.dart';
+import 'package:barterlt/screen/trackscreen.dart';
+import 'package:barterlt/screen/profiletabscreen.dart';
 //import 'package:barterlt/loginscreen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -103,16 +103,12 @@ class _MainScreenState extends State<MainScreen> {
                   Icons.saved_search,
                 ),
                 label: "Search"),
+            BottomNavigationBarItem(icon: Icon(Icons.balance), label: "Track"),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.mail_outline,
+                  Icons.supervised_user_circle_outlined,
                 ),
-                label: "Message"),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.star_border,
-                ),
-                label: "Rate/Review")
+                label: "Profile")
           ]),
     );
   }

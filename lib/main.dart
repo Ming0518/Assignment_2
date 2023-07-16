@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:barterlt/loginscreen.dart';
+//import 'package:barterlt/loginscreen.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:barterlt/myconfig.dart';
 import 'package:barterlt/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:barterlt/screen/maincreen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -91,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (content) => LoginScreen(user: user))));
+                        builder: (content) => MainScreen(user: user))));
           } else {
             user = User(
                 id: "na",
@@ -106,7 +107,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 () => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (content) => LoginScreen(user: user))));
+                        builder: (content) => MainScreen(user: user))));
           }
         }).timeout(const Duration(seconds: 5), onTimeout: () {
           // Time has run out, do what you wanted to do.
@@ -125,10 +126,8 @@ class _SplashScreenState extends State<SplashScreen> {
           otp: "na");
       Timer(
           const Duration(seconds: 3),
-          () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (content) => LoginScreen(user: user))));
+          () => Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (content) => MainScreen(user: user))));
     }
   }
 }

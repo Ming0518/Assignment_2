@@ -18,7 +18,7 @@ class SearchTabScreen extends StatefulWidget {
 }
 
 class _SearchTabScreenState extends State<SearchTabScreen> {
-  String maintitle = "Buyer";
+  String maintitle = "Buyer", result = "0";
   List<Item> itemList = <Item>[];
   late double screenHeight, screenWidth;
   late int axiscount = 2;
@@ -74,7 +74,7 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
                 color: Colors.lightGreen,
                 alignment: Alignment.center,
                 child: Text(
-                  "${itemList.length} Item Found",
+                  "$result Item Found",
                   style: const TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),
@@ -87,16 +87,41 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
                           return Card(
                             child: InkWell(
                               onTap: () {
-                                Item useritem =
-                                    Item.fromJson(itemList[index].toJson());
-                                Navigator.push(
+                                if (widget.user.id == "na") {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text(
+                                          "Please Login First To See The Items Details",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+                                            },
+                                            child: const Text("OK"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  Item useritem =
+                                      Item.fromJson(itemList[index].toJson());
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (content) => ItemDetailsScreen(
-                                              user: widget.user,
-                                              useritem: useritem,
-                                            )));
-                                loadItems(curpage);
+                                      builder: (content) => ItemDetailsScreen(
+                                        user: widget.user,
+                                        useritem: useritem,
+                                      ),
+                                    ),
+                                  );
+                                  loadItems(curpage);
+                                }
                               },
                               child: Column(
                                 children: [
@@ -191,6 +216,8 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
           extractdata['items'].forEach((v) {
             itemList.add(Item.fromJson(v));
           });
+          result = jsondata['numberofresult'];
+
           print(itemList[0].itemName);
         }
         setState(() {});
@@ -265,6 +292,7 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
           extractdata['items'].forEach((v) {
             itemList.add(Item.fromJson(v));
           });
+
           print(itemList[0].itemName);
         }
         setState(() {});
