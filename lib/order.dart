@@ -1,44 +1,45 @@
-class Cart {
+class Order {
   String? orderId;
-  String? itemId;
-  String? itemName;
-  String? itemDesc;
-  String? itemVal;
-  String? userId;
+  String? buyerId;
   String? sellerId;
-  String? cartDate;
+  String? orderDate;
+  String? orderStatus;
+  String? itemId;
+  String? sellerPhone;
+  String? buyerPhone;
 
-  Cart(
+  Order(
       {this.orderId,
-      this.itemId,
-      this.itemName,
-      this.itemDesc,
-      this.itemVal,
-      this.userId,
+      this.buyerId,
       this.sellerId,
-      this.cartDate});
+      this.orderDate,
+      this.orderStatus,
+      this.itemId,
+      this.sellerPhone,
+      this.buyerPhone});
 
-  Cart.fromJson(Map<String, dynamic> json) {
-    orderId = json['cart_id'];
-    itemId = json['item_id'];
-    itemName = json['item_name'];
-    itemDesc = json['item_desc'];
-    itemVal = json['item_value'];
-    userId = json['user_id'];
+  Order.fromJson(Map<String, dynamic> json) {
+    orderId = json['order_id'];
+    buyerId = json['buyer_id'];
     sellerId = json['seller_id'];
-    cartDate = json['cart_date'];
+    orderDate = json['order_date'];
+    orderStatus = json['order_status'];
+    itemId = json['item_id'];
+    sellerPhone = json['seller_phone'];
+    buyerPhone = json['buyer_phone'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['cart_id'] = orderId;
-    data['item_id'] = itemId;
-    data['item_name'] = itemName;
-    data['item_desc'] = itemDesc;
-    data['item_Val'] = itemVal;
-    data['user_id'] = userId;
+    data['order_id'] = orderId;
+    data['buyer_id'] = buyerId;
     data['seller_id'] = sellerId;
-    data['cart_date'] = cartDate;
+    data['order_date'] = orderDate;
+    data['order_status'] = orderStatus;
+    data['item_id'] = itemId;
+    data['seller_phone'] = sellerPhone;
+    data['buyer_phone'] = buyerPhone;
+
     return data;
   }
 }

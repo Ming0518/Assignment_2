@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import '/cart.dart';
+import '/order.dart';
 import '/user.dart';
 import 'package:http/http.dart' as http;
 import '/myconfig.dart';
-import '/screen/billscreen.dart';
-//import 'package:mynelayan/views/screens/buyer/billscreen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class OrderScreen extends StatefulWidget {
   final User user;
@@ -18,15 +17,16 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  String status = "Loading...";
   late double screenHeight, screenWidth;
   late int axiscount = 2;
   double totalprice = 0.0;
-  List<Cart> cartList = <Cart>[];
+  List<Order> orderList = <Order>[];
 
   @override
   void initState() {
     super.initState();
-    loadcart();
+    loadsellerorders();
   }
 
   @override
@@ -35,120 +35,126 @@ class _OrderScreenState extends State<OrderScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: const Text("Your Orders", style: TextStyle(color: Colors.white)),
-      ),
-      body: Column(
-        children: [
-          cartList.isEmpty
-              ? Container()
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: cartList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          navigateToBillScreen(cartList[index]);
-                        },
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                CachedNetworkImage(
-                                  width: screenWidth / 3,
-                                  fit: BoxFit.cover,
-                                  imageUrl:
-                                      "${MyConfig().SERVER}/barterlt/assets/items/${cartList[index].itemId}_1.png",
-                                  placeholder: (context, url) =>
-                                      const LinearProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Flexible(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          cartList[index].itemName.toString(),
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+          backgroundColor: Colors.green,
+          title:
+              const Text("Your Order", style: TextStyle(color: Colors.white))),
+      body: Container(
+        child: orderList.isEmpty
+            ? Container()
+            : Column(
+                children: [
+                  SizedBox(
+                    width: screenWidth,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+                      child: Row(
+                        children: [
+                          Flexible(
+                              flex: 7,
+                              child: Row(
+                                children: [
+                                  const CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                      "assets/images/profile2.png",
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                const Flexible(
-                                  flex: 4,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "Status:",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(height: 8.0),
-                                        Text(
-                                          "waitting",
-                                        ),
-                                      ],
-                                    ),
+                                  const SizedBox(
+                                    width: 8,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                                  Text(
+                                    "Hello ${widget.user.name}!",
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                          // Expanded(
+                          //   flex: 3,
+                          //   child: Row(children: [
+                          //     IconButton(
+                          //       icon: const Icon(Icons.notifications),
+                          //       onPressed: () {},
+                          //     ),
+                          //     IconButton(
+                          //       icon: const Icon(Icons.search),
+                          //       onPressed: () {},
+                          //     ),
+                          //   ]),
+                          // )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-        ],
+                  const Text("Your Current Order"),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: orderList.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                  child: Text((index + 1).toString())),
+                              title: const Text("Receipt: "),
+                              subtitle: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            "Order ID: ${orderList[index].orderId}"),
+                                        Text(
+                                            "Status: ${orderList[index].orderStatus}"),
+                                        Text(
+                                            "Seller Phone: ${orderList[index].sellerPhone}"),
+                                      ]),
+                                  // const Column(
+                                  //   children: [
+                                  //     Text(
+                                  //       "RM ",
+                                  //       style: TextStyle(
+                                  //           fontSize: 16,
+                                  //           fontWeight: FontWeight.bold),
+                                  //     ),
+                                  //     Text("")
+                                  //   ],
+                                  // )
+                                ],
+                              ),
+                            );
+                          })),
+                ],
+              ),
       ),
     );
   }
 
-  void navigateToBillScreen(Cart cartItem) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BillScreen(
-          user: widget.user,
-        ),
-      ),
-    );
-  }
-
-  void loadcart() {
-    http.post(Uri.parse("${MyConfig().SERVER}/barterlt/php/load_cart.php"),
-        body: {
-          "userid": widget.user.id,
-        }).then((response) {
-      print(response.body);
-      cartList.clear();
+  void loadsellerorders() {
+    http.post(
+        Uri.parse("${MyConfig().SERVER}/barterlt/php/load_buyerorder.php"),
+        body: {"buyerid": widget.user.id}).then((response) {
+      log(response.body);
+      //orderList.clear();
       if (response.statusCode == 200) {
         var jsondata = jsonDecode(response.body);
         if (jsondata['status'] == "success") {
+          orderList.clear();
           var extractdata = jsondata['data'];
-          extractdata['carts'].forEach((v) {
-            cartList.add(Cart.fromJson(v));
+          extractdata['orders'].forEach((v) {
+            orderList.add(Order.fromJson(v));
           });
         } else {
+          status = "Please register an account first";
+          setState(() {});
           Navigator.of(context).pop();
+          Fluttertoast.showToast(
+              msg: "No order found",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0);
         }
         setState(() {});
       }

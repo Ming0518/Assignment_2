@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import '/myconfig.dart';
 import '/screen/billscreen.dart';
 //import 'package:mynelayan/views/screens/buyer/billscreen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BuyerCartScreen extends StatefulWidget {
   final User user;
@@ -134,7 +135,14 @@ class _BuyerCartScreenState extends State<BuyerCartScreen> {
             cartList.add(Cart.fromJson(v));
           });
         } else {
+          setState(() {});
           Navigator.of(context).pop();
+          Fluttertoast.showToast(
+              msg: "No item in your cart.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0);
         }
         setState(() {});
       }

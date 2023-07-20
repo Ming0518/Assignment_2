@@ -29,7 +29,7 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
     super.initState();
     _nameEditingController.text = widget.user.name.toString();
     _phoneEditingController.text = widget.user.phone.toString();
-    _passwordEditingController.text = widget.user.password.toString();
+    _passwordEditingController.text = "";
   }
 
   @override
@@ -98,6 +98,25 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  width: screenWidth / 1.2,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      udpateDialog();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.green,
+                    ),
+                    child: const Text("Update Profile"),
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
                 Row(
                   children: [
                     Flexible(
@@ -123,19 +142,19 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 25,
                 ),
                 SizedBox(
                   width: screenWidth / 1.2,
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      udpateDialog();
+                      udpatePass();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Colors.green,
                     ),
-                    child: const Text("Update Profile"),
+                    child: const Text("Change Password"),
                   ),
                 ),
               ],
@@ -149,7 +168,7 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
   void udpateDialog() {
     String name = _nameEditingController.text;
     String phone = _phoneEditingController.text;
-    String password = _passwordEditingController.text;
+    //String password = _passwordEditingController.text;
 
     showDialog(
       context: context,
@@ -167,7 +186,7 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
-                performProfileUpdate(name, phone, password);
+                performProfileUpdate(name, phone);
               },
               child: const Text("Update", style: TextStyle(color: Colors.red)),
             ),
@@ -177,12 +196,79 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
     );
   }
 
-  void performProfileUpdate(String name, String phone, String password) {
+  void performProfileUpdate(String name, String phone) {
     http.post(Uri.parse("${MyConfig().SERVER}/barterlt/php/update_profile.php"),
         body: {
           "id": widget.user.id,
           "name": name,
           "phone": phone,
+          //"password": password,
+        }).then((response) {
+      print(response.body);
+      if (response.statusCode == 200) {
+        var jsondata = jsonDecode(response.body);
+        if (jsondata['status'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Update Success")));
+
+          User updatedUser = User(
+            id: widget.user.id,
+            name: name,
+            phone: phone,
+            // password: password,
+          );
+
+          widget.onUpdateProfile(updatedUser);
+
+          Navigator.pop(
+              context, updatedUser); // Pass the updated user as the result
+        } else {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text("Update Failed")));
+        }
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Update Failed")));
+        Navigator.pop(context);
+      }
+    });
+  }
+
+  void udpatePass() {
+    String password = _passwordEditingController.text;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmation"),
+          content: const Text("Are you sure you want to update your password?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                performPassUpdate(password);
+              },
+              child: const Text("Update", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void performPassUpdate(String password) {
+    String name = _nameEditingController.text;
+    String phone = _phoneEditingController.text;
+    http.post(Uri.parse("${MyConfig().SERVER}/barterlt/php/update_pass.php"),
+        body: {
+          "id": widget.user.id,
           "password": password,
         }).then((response) {
       print(response.body);
@@ -196,7 +282,6 @@ class _MessageTabScreenState extends State<EditProfileScreen> {
             id: widget.user.id,
             name: name,
             phone: phone,
-            password: password,
           );
 
           widget.onUpdateProfile(updatedUser);

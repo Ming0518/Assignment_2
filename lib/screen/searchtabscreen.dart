@@ -258,6 +258,10 @@ class _SearchTabScreenState extends State<SearchTabScreen> {
                     searchItem(search);
                     Navigator.of(context).pop();
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors
+                        .green, // Set the button's background color to green.
+                  ),
                   child: const Text("Search"),
                 ),
               ],

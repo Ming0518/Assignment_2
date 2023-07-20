@@ -112,7 +112,6 @@ class _BillScreenState extends State<BillScreen> {
               timeInSecForIosWeb: 1,
               fontSize: 16.0);
         }
-        Navigator.pop(context);
       } else {
         Fluttertoast.showToast(
             msg: "Failed",

@@ -1,3 +1,4 @@
+import 'package:barterlt/screen/sellerorder.dart';
 import 'package:flutter/material.dart';
 import 'package:barterlt/user.dart';
 import 'cartpage.dart';
@@ -113,14 +114,14 @@ class _MessageTabScreenState extends State<MessageTabScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  OrderScreen(user: widget.user),
+                                  SellerOrderScreen(user: widget.user),
                             ),
                           );
                         },
                         child: const Card(
                           child: ListTile(
                             leading: Icon(Icons.handshake),
-                            title: Text('Agrrement'),
+                            title: Text('Agreement'),
                           ),
                         ),
                       ),
