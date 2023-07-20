@@ -37,7 +37,7 @@ class _SellerOrderScreenState extends State<SellerOrderScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text("Your Order", style: TextStyle(color: Colors.white)),
+        title: const Text("Your Barter", style: TextStyle(color: Colors.white)),
       ),
       body: Container(
         child: orderList.isEmpty

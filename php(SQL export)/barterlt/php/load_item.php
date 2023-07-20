@@ -48,6 +48,7 @@ if ($result->num_rows > 0) {
         $itemlist['item_state'] = $row['state'];
         $itemlist['item_locality'] = $row['locality'];
 		$itemlist['item_date'] = $row['date'];
+        $itemlist['user_phone'] = $row['phone'];
         array_push($items["items"],$itemlist);
     }
     $response = array('status' => 'success', 'data' => $items, 'numofpage'=>"$number_of_page",'numberofresult'=>"$number_of_result",);

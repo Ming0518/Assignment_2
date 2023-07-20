@@ -11,6 +11,8 @@ $userid = $_POST['userid'];
 $name = $_POST['itemname'];
 $desc = $_POST['itemdesc'];
 $value = $_POST['itemvalue'];
+$phone = $_POST['phone'];
+
 //$catch_qty = $_POST['catchqty'];
 //$catch_type = $_POST['type'];
 $latitude = $_POST['latitude'];
@@ -21,7 +23,7 @@ $imageList= $_POST["image"];
 $image = json_decode($imageList);
 $imagelength = count($image);
 
-$sqlinsert = "INSERT INTO `info_items`(`id`,`name`, `descrip`, `value`, `lat`, `longt`, `state`, `locality`) VALUES ('$userid','$name','$desc','$value','$latitude','$longitude','$state','$locality')";
+$sqlinsert = "INSERT INTO `info_items`(`id`,`name`, `descrip`, `value`, `lat`, `longt`, `state`, `locality`,`phone`) VALUES ('$userid','$name','$desc','$value','$latitude','$longitude','$state','$locality',$phone)";
 
 if ($conn->query($sqlinsert) === TRUE) {
 	$filename = mysqli_insert_id($conn);
